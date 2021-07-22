@@ -1,6 +1,8 @@
 <?php
 
-$api_key = "";
+$api_key = file_get_contents('./key.txt', true);
+
+
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.whereby.dev/v1/meetings');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -23,11 +25,25 @@ $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 //echo "Status code: $httpcode\n";
+
+//echo "APIKEY: " . $api_key . "\n";
+
 $data = json_decode($response);
-$url = $data->{'roomUrl'};
+
+$message = "";
+
+if($httpcode !== 401)
+{
+  $url = $data->{'roomUrl'};
+}else{
+  $url = null;
+  $message = $response;
+}
+
 //echo "Room URL: ", $data->{'roomUrl'}, "\n";
 //echo "Host room URL: ", $data->{'hostRoomUrl'}, "\n";
 
+//echo  date("Y-m-d H:i:s");
 
 ?>
 
@@ -43,11 +59,21 @@ $url = $data->{'roomUrl'};
 <body>
         
 <div class="container-fluid mt-4 p-3">
+    <?php 
+      if(!empty($url))
+      {
+    ?>
         <iframe
         src="<?php echo $url; ?>"
         allow="camera; microphone; fullscreen; speaker; display-capture"
         width="100%" height="900"
         ></iframe>
+
+        <?php }else{?>
+          <div class="alert alert-danger">
+            <span class="text-center"><?php echo $message ?></span>
+          </div>
+        <?php }?>
 </div>
         
      

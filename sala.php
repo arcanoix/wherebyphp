@@ -54,11 +54,12 @@ if($httpcode !== 401)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
-    <title>TestDemo</title>
+    <title>Sala de Reiki</title>
 </head>
 <body>
         
 <div class="container-fluid mt-4 p-3">
+
     <?php 
       if(!empty($url))
       {
